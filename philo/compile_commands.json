@@ -1,0 +1,53 @@
+[
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/init_utils.c",
+   "-o",
+   "objs/init_utils.o"
+  ],
+  "file": "srcs/init_utils.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/init.c",
+   "-o",
+   "objs/init.o"
+  ],
+  "file": "srcs/init.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/main.c",
+   "-o",
+   "objs/main.o"
+  ],
+  "file": "srcs/main.c"
+ }
+]
