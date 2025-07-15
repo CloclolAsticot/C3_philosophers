@@ -6,11 +6,12 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:42 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/15 17:21:47 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/15 18:49:58 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures_initialization.h"
+#include "time_operations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -125,7 +126,7 @@ void	*initialize_config(char *user_input[], t_config *config)
 		return (NULL);
 	}
 	config->has_a_philo_died = false;            // init bool
-	gettimeofday(&config->sim_start_time, NULL); // init sim_start_time
+	config->sim_start_time = get_current_time_ms(); // init sim_start_time
 	return (config);
 }
 

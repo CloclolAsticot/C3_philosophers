@@ -16,13 +16,16 @@ D_OBJS = objs
 # Source Files
 FILES 	= 	main.c \
 			structures_initialization.c \
-			structures_initialization_utils.c
+			structures_initialization_utils.c \
+			time_operations.c
 
 SRCS 	= 		$(addprefix $(D_SRCS)/, $(FILES))
 
 # Include Files
 INCS = -I ./$(D_INCS)
-HEADERS = $(D_INCS)/structures_initialization.h $(D_INCS)/structures.h
+HEADERS =	$(D_INCS)/structures_initialization.h \
+			$(D_INCS)/structures.h \
+			$(D_INCS)/time_operations.h
 
 # Object Files
 OBJS 	= 	$(patsubst $(D_SRCS)/%.c, $(D_OBJS)/%.o, $(SRCS))
