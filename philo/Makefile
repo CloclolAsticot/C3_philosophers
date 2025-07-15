@@ -14,14 +14,15 @@ D_INCS = incs
 D_OBJS = objs
 
 # Source Files
-FILES 	= 	init_utils.c \
-			init.c \
-			main.c
+FILES 	= 	main.c \
+			structures_initialization.c \
+			structures_initialization_utils.c
 
 SRCS 	= 		$(addprefix $(D_SRCS)/, $(FILES))
 
 # Include Files
 INCS = -I ./$(D_INCS)
+HEADERS = $(D_INCS)/structures_initialization.h $(D_INCS)/structures.h
 
 # Object Files
 OBJS 	= 	$(patsubst $(D_SRCS)/%.c, $(D_OBJS)/%.o, $(SRCS))
@@ -33,7 +34,7 @@ OBJS 	= 	$(patsubst $(D_SRCS)/%.c, $(D_OBJS)/%.o, $(SRCS))
 .PHONY : all
 all: $(D_OBJS) $(NAME)
 
-$(D_OBJS)/%.o: $(D_SRCS)/%.c Makefile incs/philo.h
+$(D_OBJS)/%.o: $(D_SRCS)/%.c $(HEADERS) Makefile 
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@ 
 
@@ -42,7 +43,7 @@ $(D_OBJS):
 	mkdir -p $(D_OBJS)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) -lpthread $(OBJS) -o $(NAME)
 
 .PHONY : clean
 clean:
