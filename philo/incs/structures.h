@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:35:54 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/15 18:48:15 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/16 17:24:21 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,24 @@
 typedef struct s_config
 {
 	long			sim_start_time;
-	time_t			number_of_philosophers;
-	time_t			time_to_die;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
-	long			number_of_times_each_philosopher_must_eat;
+	unsigned int	number_of_philosophers;
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	number_of_times_each_philosopher_must_eat;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t death_bool_mutex;
 	bool			has_a_philo_died;
 }					t_config;
 
 typedef struct s_philo
 {
-	long			id;
+	unsigned int	id;
 	long			last_meal_time;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	long			nb_of_meals;
+	unsigned int	nb_of_meals;
 	pthread_t		thread_id;
 	t_config		*config;
 }					t_philo;

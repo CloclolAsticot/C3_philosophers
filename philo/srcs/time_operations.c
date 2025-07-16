@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:23:54 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/15 18:44:27 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/16 16:59:39 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long get_current_time_ms(void)
 	long time_in_ms;
 
 	gettimeofday(&time_struct, NULL);
-	time_in_ms = time_struct.tv_sec * 1000 + time_struct.tv_usec;
+	time_in_ms = time_struct.tv_sec * 1000 + time_struct.tv_usec / 1000;
 	return (time_in_ms);
 }
 

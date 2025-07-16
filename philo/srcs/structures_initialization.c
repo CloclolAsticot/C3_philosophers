@@ -6,12 +6,14 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:42 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/15 18:49:58 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/16 17:26:09 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures_initialization.h"
-#include "time_operations.h"
+#include "utils.h"
+#include <limits.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +37,7 @@ static void	*initialize_user_input(char *user_input[], t_config *config)
 	while (i <= 4 || (i == 5 && user_input[5] != NULL))
 	{
 		nb = check_and_convert_user_input(user_input[i]);
-		if (nb < 0)
+		if (nb == WRONG_FORMAT)
 			return (NULL);
 		if (i == 1)
 			config->number_of_philosophers = nb;
@@ -50,7 +52,7 @@ static void	*initialize_user_input(char *user_input[], t_config *config)
 		i++;
 	}
 	if (i == 5 && user_input[5] == NULL)
-		config->number_of_times_each_philosopher_must_eat = -1;
+		config->number_of_times_each_philosopher_must_eat = NO_ARG;
 	return (config);
 }
 
@@ -121,6 +123,19 @@ void	*initialize_config(char *user_input[], t_config *config)
 			pthread_mutex_destroy(&config->fork[i]);
 			i++;
 		}
+		free(config->fork);
+		printf("Error : mutex initialization fail on print_mutex\n");
+		return (NULL);
+	}
+	if (pthread_mutex_init(&config->death_bool_mutex, NULL) != 0) // init print mutex
+	{
+		i = 0;
+		while (i < config->number_of_philosophers)
+		{
+			pthread_mutex_destroy(&config->fork[i]);
+			i++;
+		}
+		pthread_mutex_destroy(&config->print_mutex);
 		free(config->fork);
 		printf("Error : mutex initialization fail on print_mutex\n");
 		return (NULL);

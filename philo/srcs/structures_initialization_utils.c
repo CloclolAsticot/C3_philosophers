@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structure_initialization_utils.c                   :+:      :+:    :+:   */
+/*   structures_initialization_utils.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:57:44 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/15 16:50:45 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/16 16:59:36 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils.h"
 #include <limits.h>
 #include <stdbool.h>
 #include <string.h>
@@ -67,63 +68,56 @@ static bool	is_number(char *str)
 }
 
 /**
- * @brief Converts a string to a long integer with overflow protection.
+ * @brief Converts a string to an unsigned integer with overflow protection.
  *
  * @param str Pointer to the null-terminated string to be converted.
  *
- * @return On success, returns the converted long integer value.
- * @return On positive overflow, returns -1.
- * @return On negative overflow, returns 0.
+ * @return On success, returns the converted unsigned integer value.
+ * @return On positive overflow or if the given number is < 0, returns -1.
  */
-static long	ft_atol(const char *str)
+static unsigned int	ft_atouint(const char *str)
 {
 	size_t	i;
-	long	sign;
 	long	nbr;
 
 	i = 0;
-	sign = 1;
 	nbr = 0;
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)) // skips whitespaces
 		i++;
 	if (str[i] == '-' || str[i] == '+') // checks the sign
 	{
 		if (str[i] == '-')
-			sign *= -1;
+			return (WRONG_FORMAT);
 		i++;
 	}
 	while (ft_isdigit(str[i])) // converts the string
 	{
-		if (nbr > ((LONG_MAX - (str[i] - '0')) / 10) && sign > 0)
-			return (-1);
-		else if (nbr > ((LONG_MAX - (str[i] - '0')) / 10) && sign < 0)
-			return (0);
+		if (nbr > ((UINT_MAX / 1000 - (str[i] - '0')) / 10)) // unsigned int overflow
+			return (WRONG_FORMAT);
 		nbr = nbr * 10 + str[i] - '0';
 		i++;
 	}
-	return (sign * nbr); // returns the conversion result (with the right sign)
+	return (nbr); // returns the conversion result (with the right sign)
 }
 
 /**
- * @brief Ensures a string is convertible to long and converts it.
+ * @brief Ensures a string is convertible to unsigned int and converts it.
  *
  * @param str_to_convert The string to validate and convert.
  *
- * @return On success, returns the converted positive long integer.
+ * @return On success, returns the converted positive unsigned integer.
  * @return On failure, returns -1.
  */
-long	check_and_convert_user_input(char *str_to_convert)
+unsigned int check_and_convert_user_input(char *str_to_convert)
 {
 	long	nb;
 
 	if (is_number(str_to_convert) == false)
 		// checks if the input str is a number
-		return (-1);
-	if (str_to_convert[0] == '-') // checks if the input str is < 0
-		return (-1);
-	nb = ft_atol(str_to_convert); // converts the input str to a long
-	if (nb < 0)                  
-		// checks if there was an overflow (input str is longer than a long)
-		return (-1);
+		return (WRONG_FORMAT);
+	nb = ft_atouint(str_to_convert); // converts the input str to an unsigned int
+	if (nb < 0)
+		// checks if there was an overflow (input str is longer than an unsigned int) or if the nb is negative
+		return (WRONG_FORMAT);
 	return (nb);
 }
