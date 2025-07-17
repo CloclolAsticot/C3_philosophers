@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:38:20 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/17 17:52:24 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/17 18:27:35 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,55 +23,89 @@ static bool	check_routine_conditions(bool *has_a_philo_died,
 		return (false);
 }
 
-static bool fork_grabbing_attempt(unsigned int philo_id, t_fork *left_fork,
-		t_fork *right_fork)
+static void fork_grabbing_attempt(t_fork *first_fork, t_fork *second_fork, bool *successful_attempt)
 {
-	if (philo_id % 2 == 0)
+	pthread_mutex_lock(&first_fork->fork_mutex);
+	if (first_fork->is_fork_used == false)
 	{
-		if (protected_bool_check(left_fork->is_fork_used,
-				left_fork->fork_mutex) == false)
+		first_fork->is_fork_used = true;
+		pthread_mutex_unlock(&first_fork->fork_mutex);
+		pthread_mutex_lock(&second_fork->fork_mutex);
+		if (second_fork->is_fork_used == false)
 		{
-			protected_bool_update(&left_fork->is_fork_used, true, left_fork->fork_mutex);
-			if (protected_bool_check(right_fork->is_fork_used,
-				right_fork->fork_mutex) == false)
-			{
-				protected_bool_update(&right_fork->is_fork_used, true, right_fork->fork_mutex);
-				return (true);
-			}
-			else
-			 	protected_bool_update(&left_fork->is_fork_used, false, left_fork->fork_mutex);
+			second_fork->is_fork_used = true;
+			pthread_mutex_unlock(&second_fork->fork_mutex);
+			*successful_attempt = true;
+		}
+		else
+		{
+			pthread_mutex_unlock(&second_fork->fork_mutex);
+			pthread_mutex_lock(&first_fork->fork_mutex);
+		 	first_fork->is_fork_used = false;
+			pthread_mutex_unlock(&first_fork->fork_mutex);
 		}
 	}
-	if (philo_id % 2 != 0)
-	{
-		if (protected_bool_check(right_fork->is_fork_used,
-				right_fork->fork_mutex) == false)
-		{
-			protected_bool_update(&right_fork->is_fork_used, true, right_fork->fork_mutex);
-			if (protected_bool_check(left_fork->is_fork_used,
-				left_fork->fork_mutex) == false)
-			{
-				protected_bool_update(&left_fork->is_fork_used, true, left_fork->fork_mutex);
-				return (true);
-			}
-			else
-			 	protected_bool_update(&right_fork->is_fork_used, false, right_fork->fork_mutex);
-		}
-	}
-	return(false);
+	else
+		pthread_mutex_unlock(&first_fork->fork_mutex);
 }
+
+
+
+
+
+
+// static bool fork_grabbing_attempt(unsigned int philo_id, t_fork *left_fork,
+// 		t_fork *right_fork)
+// {
+// 	if (philo_id % 2 == 0)
+// 	{
+// 		if (protected_bool_check(left_fork->is_fork_used,
+// 				left_fork->fork_mutex) == false)
+// 		{
+// 			protected_bool_update(&left_fork->is_fork_used, true, left_fork->fork_mutex);
+// 			if (protected_bool_check(right_fork->is_fork_used,
+// 				right_fork->fork_mutex) == false)
+// 			{
+// 				protected_bool_update(&right_fork->is_fork_used, true, right_fork->fork_mutex);
+// 				return (true);
+// 			}
+// 			else
+// 			 	protected_bool_update(&left_fork->is_fork_used, false, left_fork->fork_mutex);
+// 		}
+// 	}
+// 	if (philo_id % 2 != 0)
+// 	{
+// 		if (protected_bool_check(right_fork->is_fork_used,
+// 				right_fork->fork_mutex) == false)
+// 		{
+// 			protected_bool_update(&right_fork->is_fork_used, true, right_fork->fork_mutex);
+// 			if (protected_bool_check(left_fork->is_fork_used,
+// 				left_fork->fork_mutex) == false)
+// 			{
+// 				protected_bool_update(&left_fork->is_fork_used, true, left_fork->fork_mutex);
+// 				return (true);
+// 			}
+// 			else
+// 			 	protected_bool_update(&right_fork->is_fork_used, false, right_fork->fork_mutex);
+// 		}
+// 	}
+// 	return(false);
+// }
 
 static bool take_forks(unsigned int philo_id, t_fork *left_fork,
 		t_fork *right_fork, t_config *config)
 {
-	bool has_attempt_been_successful;
+	bool successful_attempt;
 
-	has_attempt_been_successful = false;
-	while (protected_bool_check(config->has_a_philo_died, config->death_bool_mutex) == false && has_attempt_been_successful == false)
+	successful_attempt = false;
+	while (protected_bool_check(config->has_a_philo_died, config->death_bool_mutex) == false && successful_attempt == false)
 	{
-		has_attempt_been_successful = fork_grabbing_attempt(philo_id, left_fork, right_fork);
+		if (philo_id % 2 == 0)
+			fork_grabbing_attempt(left_fork, right_fork, &successful_attempt);
+		else if (philo_id % 2 != 0)
+			fork_grabbing_attempt(right_fork, left_fork, &successful_attempt);
 	}
-	return (has_attempt_been_successful);
+	return (successful_attempt);
 }
 
 void	*philo_routine(void *arg)

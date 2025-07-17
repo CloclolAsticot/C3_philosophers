@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:42:11 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/17 17:45:35 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/17 18:22:12 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void	*monitor_routine(void *arg)
 	}
 	return (NULL);
 }
+
 
