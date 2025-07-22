@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:42 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/22 18:32:25 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/22 16:46:59 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ static void	*initialize_user_input(char *user_input[], t_config *config)
  * 
  * @return Pointer to the initialized fork array on success, NULL on failure.
  */
-static void	*initialize_forks_array(t_fork *forks, unsigned int nb_of_philosophers)
+static void	*initialize_forks_array(unsigned int nb_of_philosophers)
 {
+	t_fork *forks;
 	unsigned int i;
 	
 	forks = malloc((nb_of_philosophers + 1)	// malloc the forks array
@@ -133,14 +134,14 @@ void	*initialize_config(char *user_input[], t_config *config)
 		printf("Error : Wrong argument format\n");
 		return (NULL);
 	}
-	config->forks = initialize_forks_array(NULL, config->number_of_philosophers);
+	config->forks = initialize_forks_array(config->number_of_philosophers);
 	if (config->forks == NULL) // init forks[]
 		return (NULL);
 	if (initialize_util_mutexes(config) == NULL) // init print_mutex and death_bool_mutex
 		return (NULL);
 	config->stop_sim = false;            // init has_a_philo_died
-	config->satiated_philos_counter = 0; 
 	config->sim_start_time = get_current_time_ms(); // init sim_start_time
+	config->satiated_philos_counter = 0;
 	return (config);
 }
 

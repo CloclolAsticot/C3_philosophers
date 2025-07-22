@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:35:54 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/22 18:25:40 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/22 16:12:13 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@ typedef struct s_config
 	unsigned int	time_to_sleep;
 	unsigned int	number_of_times_each_philosopher_must_eat;
 	t_fork			*forks;
+	unsigned int	satiated_philos_counter;
+	pthread_mutex_t	satiated_philos_counter_mutex;
+	pthread_mutex_t	print_mutex;
 	bool			stop_sim;
 	pthread_mutex_t	stop_sim_mutex;
-	pthread_mutex_t	print_mutex;
-	unsigned int satiated_philos_counter;
-	pthread_mutex_t satiated_philos_counter_mutex;
+
 }					t_config;
 
 typedef struct s_philo
 {
 	unsigned int	id;
 	long			last_meal;
-	pthread_mutex_t last_meal_mutex;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	unsigned int	nb_of_meals;
+	bool			is_satiated;
 	pthread_t		thread_id;
 	t_config		*config;
 }					t_philo;

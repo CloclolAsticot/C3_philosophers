@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:39:52 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/22 14:28:39 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/22 16:13:02 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void *create_threads(t_philo *philos, pthread_t *monitor, t_config *config)
+void *create_threads(t_philo *philos, t_config *config)
 {
 	unsigned int i;
 	unsigned int nb_of_philos;
@@ -32,17 +32,10 @@ void *create_threads(t_philo *philos, pthread_t *monitor, t_config *config)
 			pthread_mutex_unlock(&config->print_mutex);
 			protected_bool_update(&config->stop_sim, true, config->stop_sim_mutex);
 			terminate_philos_threads(philos, i);
-			clean_philos_array(philos, i);
 			clean_all(NULL, config);
 			return (NULL);
 		}
 		i++;
-	}
-	if (pthread_create(monitor, NULL, &monitor_routine, philos) != 0)
-	{
-		printf("Error : thread creation failed for monitor\n");
-		terminate_philos_threads(philos, config->number_of_philosophers);
-		return (NULL);
 	}
 	return (philos);
 }

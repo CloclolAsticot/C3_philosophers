@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:28:32 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/22 18:13:48 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/22 16:54:44 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	*initialize_philos(t_config *config)
 	t_philo *philos;
 	unsigned int	i;
 
-	philos = malloc((config->number_of_philosophers + 1) * sizeof(t_philo));
+	philos = malloc((config->number_of_philosophers) * sizeof(t_philo));
 	if (philos == NULL)
 	{
 		printf("Error : malloc failed for philos[]\n");
 		clean_all(NULL, config);
 		return (NULL);
 	}
-	memset(philos, 0, (config->number_of_philosophers + 1) * sizeof(t_philo));
+	memset(philos, 0, (config->number_of_philosophers) * sizeof(t_philo));
 	i = 0;
 	while (i < config->number_of_philosophers)
 	{
@@ -46,15 +46,7 @@ void	*initialize_philos(t_config *config)
 		philos[i].nb_of_meals = 0;	// init nb of meals
 		philos[i].config = config;	// init config (so each philo has its informations)
 		philos[i].last_meal = config->sim_start_time;	// init last meal time
-		if (pthread_mutex_init(&philos[i].last_meal_mutex, NULL) != 0) // init print mutex
-		{
-			printf("Error : mutex initialization fail on last_meal_mutex\n");
-			clean_forks_array(config->forks, config->number_of_philosophers);
-			pthread_mutex_destroy(&config->print_mutex);
-			pthread_mutex_destroy(&config->stop_sim_mutex);
-			clean_philos_array(philos, i);
-			return (NULL);
-		}
+		philos[i].is_satiated = false;
 		i++;
 	}
 	return (philos);
