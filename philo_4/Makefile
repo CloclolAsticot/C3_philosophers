@@ -20,6 +20,7 @@ FILES 	= 	main.c \
 			structures_initialization/philos_initialization.c \
 			threads/monitor_routine.c \
 			threads/philo_routine.c \
+			threads/philo_routine_utils.c \
 			threads/threads_utils.c \
 			utils/clean.c \
 			utils/log_display.c \

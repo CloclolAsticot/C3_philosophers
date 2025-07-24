@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:02:30 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 16:43:08 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/24 17:45:37 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool death_check_and_update(t_data *data, t_philo *philo)
     {
         pthread_mutex_lock(&data->stop_sim_mutex);
         data->stop_sim = true;
-        print_log(get_time_diff_ms(data->sim_start_time), philo->id, DEATH_MSG, data);
+        print_log(get_time_diff_ms(philo->last_meal), philo->id, DEATH_MSG, data);
         pthread_mutex_unlock(&data->stop_sim_mutex);
         pthread_mutex_unlock(&philo->last_meal_mutex);
         return (true);
@@ -61,6 +61,7 @@ void	*monitor_routine(void *arg)
                 return (NULL);
             satiaty_counter_update(&satiated_philos_counter, &philos[i]);
             i++;
+            usleep(100);
         }
 	}
     pthread_mutex_lock(&data->stop_sim_mutex);
