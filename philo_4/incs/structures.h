@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:35:54 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 11:55:08 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/24 16:42:44 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@ typedef struct s_fork
 	pthread_mutex_t fork_mutex;
 }					t_fork;
 
-typedef struct s_config
+typedef struct s_data
 {
 	long			sim_start_time;
-	unsigned int	number_of_philosophers;
+	unsigned int	nb_of_philosophers;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	unsigned int	number_of_required_meals;
+	unsigned int	nb_of_required_meals;
 	t_fork			*forks;
 	pthread_mutex_t	print_mutex;
 	bool			stop_sim;
 	pthread_mutex_t stop_sim_mutex;
 
-}					t_config;
+}					t_data;
 
 typedef struct s_philo
 {
@@ -48,7 +48,11 @@ typedef struct s_philo
 	unsigned int	remaining_meals;
 	pthread_mutex_t	remaining_meals_mutex;
 	pthread_t		thread_id;
-	t_config		*config;
+	t_data			*data;
 }					t_philo;
+
+
+
+
 
 #endif

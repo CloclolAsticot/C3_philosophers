@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log_display.c                                      :+:      :+:    :+:   */
+/*   threads_handling.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 18:59:56 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/16 16:59:33 by csavreux         ###   ########lyon.fr   */
+/*   Created: 2025/07/24 16:35:38 by csavreux          #+#    #+#             */
+/*   Updated: 2025/07/24 16:42:45 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structures.h"
-#include <stdio.h>
+#ifndef THREADS_HANDLING_H
+# define THREADS_HANDLING_H
 
-void print_log(long timestamp, long philo_id, char *msg, t_config *config)
-{
-	pthread_mutex_lock(&config->print_mutex);
-	printf("%ld %ld %s\n", timestamp, philo_id, msg);
-	pthread_mutex_unlock(&config->print_mutex);
-}
+#include "structures.h"
+
+void create_philo_threads(t_philo *philos, t_data *data);
+
+void	terminate_threads(t_philo *philos, t_data *data);
+
+void	*monitor_routine(void *arg);
+
+void	*philo_routine(void *arg);
+
+#endif

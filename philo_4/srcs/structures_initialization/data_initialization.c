@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config_initialization.c                            :+:      :+:    :+:   */
+/*   data_initialization.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:42 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 11:55:25 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/24 15:07:13 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 #include <limits.h>
 #include <pthread.h>
 #include <stdio.h>
-#include <string.h>
 #include <sys/time.h>
+#include <stdlib.h>
+#include "utils.h"
 
 /**
- * @brief Initializes the configuration structure with user input parameters.
+ * @brief Initializes the datauration structure with user input parameters.
  * 
  * @param user_input Array of strings containing the simulation parameters.
- * @param config Pointer to the configuration structure to be initialized.
+ * @param data Pointer to the datauration structure to be initialized.
  * 
- * @return Pointer to the initialized config structure on success, NULL on
+ * @return Pointer to the initialized data structure on success, NULL on
  * 		   failure.
  */
-static void	*initialize_user_input(char *user_input[], t_config *config)
+static void	*initialize_user_input(char *user_input[], t_data *data)
 {
 	long	nb;
 	int		i;
@@ -40,20 +41,20 @@ static void	*initialize_user_input(char *user_input[], t_config *config)
 		if (nb == WRONG_FORMAT)
 			return (NULL);
 		if (i == 1)
-			config->number_of_philosophers = nb;
+			data->nb_of_philosophers = nb;
 		else if (i == 2)
-			config->time_to_die = nb;
+			data->time_to_die = nb;
 		else if (i == 3)
-			config->time_to_eat = nb;
+			data->time_to_eat = nb;
 		else if (i == 4)
-			config->time_to_sleep = nb;
+			data->time_to_sleep = nb;
 		else if (i == 5)
-			config->number_of_required_meals = nb;
+			data->nb_of_required_meals = nb;
 		i++;
 	}
 	if (i == 5 && user_input[5] == NULL)
-		config->number_of_required_meals = NO_ARG;
-	return (config);
+		data->nb_of_required_meals = NO_ARG;
+	return (data);
 }
 
 static void	*initialize_forks_array(unsigned int nb_of_philosophers)
@@ -76,56 +77,56 @@ static void	*initialize_forks_array(unsigned int nb_of_philosophers)
 			clean_forks_array(forks, i);
 			return (NULL);
 		}
-		forks[i].fork_state = false;
+		forks[i].fork_status = false;
 		i++;
 	}
 	return (forks);
 }
 
-static void *initialize_util_mutexes(t_config *config)
+static void *initialize_util_mutexes(t_data *data)
 {
-	if (pthread_mutex_init(&config->print_mutex, NULL) != 0) // init print mutex
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0) // init print mutex
 	{
 		printf("Error : mutex initialization fail on print_mutex\n");
-		clean_forks_array(config->forks, config->number_of_philosophers);
+		clean_forks_array(data->forks, data->nb_of_philosophers);
 		return (NULL);
 	}
-	if (pthread_mutex_init(&config->stop_sim_mutex, NULL) != 0) // init print mutex
+	if (pthread_mutex_init(&data->stop_sim_mutex, NULL) != 0) // init print mutex
 	{
 		printf("Error : mutex initialization fail on stop_sim_mutex\n");
-		clean_forks_array(config->forks, config->number_of_philosophers);
-		pthread_mutex_destroy(&config->print_mutex);
+		clean_forks_array(data->forks, data->nb_of_philosophers);
+		pthread_mutex_destroy(&data->print_mutex);
 		return (NULL);
 	}
-	return (config);
+	return (data);
 }
 
 /**
- * @brief Initializes the configuration structure for the philosophers 
+ * @brief Initializes the datauration structure for the philosophers 
  * simulation.
  * 
  * @param user_input Array of command-line arguments containing simulation
  * 					 parameters.
- * @param config Pointer to the configuration structure to be initialized.
+ * @param data Pointer to the datauration structure to be initialized.
  * 
- * @return Pointer to the initialized config structure on success, NULL on 
+ * @return Pointer to the initialized data structure on success, NULL on 
  * 		   failure.
  */
-void	*initialize_config(char *user_input[], t_config *config)
+void	*initialize_data(char *user_input[], t_data *data)
 {
-	if (initialize_user_input(user_input, config) == NULL) // init user input values
+	if (initialize_user_input(user_input, data) == NULL) // init user input values
 	{
 		printf("Error : Wrong argument format\n");
 		return (NULL);
 	}
-	config->forks = initialize_forks_array(config->number_of_philosophers);
-	if (config->forks == NULL) // init forks[]
+	data->forks = initialize_forks_array(data->nb_of_philosophers);
+	if (data->forks == NULL) // init forks[]
 		return (NULL);
-	if (initialize_util_mutexes(config) == NULL) // init print_mutex and stop_sim_mutex
+	if (initialize_util_mutexes(data) == NULL) // init print_mutex and stop_sim_mutex
 		return (NULL);
-	config->stop_sim = false;            // init has_a_philo_died
-	config->sim_start_time = get_current_time_ms(); // init sim_start_time
-	return (config);
+	data->stop_sim = false;            // init has_a_philo_died
+	data->sim_start_time = get_current_time_ms(); // init sim_start_time
+	return (data);
 }
 
 

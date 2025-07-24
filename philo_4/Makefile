@@ -15,12 +15,15 @@ D_OBJS = objs
 
 # Source Files
 FILES 	= 	main.c \
-			structures_initialization.c \
-			structures_initialization_utils.c \
-			time_operations.c \
-			log_display.c \
-			threads_handling.c \
-			threads_handling_utils.c
+			structures_initialization/data_initialization.c \
+			structures_initialization/data_initialization_utils.c \
+			structures_initialization/philos_initialization.c \
+			threads/monitor_routine.c \
+			threads/philo_routine.c \
+			threads/threads_utils.c \
+			utils/clean.c \
+			utils/log_display.c \
+			utils/time_operations.c 
 
 SRCS 	= 		$(addprefix $(D_SRCS)/, $(FILES))
 
@@ -28,6 +31,7 @@ SRCS 	= 		$(addprefix $(D_SRCS)/, $(FILES))
 INCS = -I ./$(D_INCS)
 HEADERS =	$(D_INCS)/structures_initialization.h \
 			$(D_INCS)/structures.h \
+			$(D_INCS)/threads_handling.h \
 			$(D_INCS)/utils.h
 
 # Object Files

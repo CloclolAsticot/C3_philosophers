@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:44:58 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 12:10:41 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/24 16:42:47 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,16 @@
 # define DEATH_MSG "died"
 
 // Log display
-void	print_log(long timestamp, long philo_id, char *msg, t_config *config);
+
+void print_log(long timestamp, long philo_id, char *msg, t_data *data);
+
+bool protected_print_log(long timestamp, long philo_id, char *msg, t_data *data);
 
 // Time operations
+
 long	get_current_time_ms(void);
 
 long	get_time_diff_ms(long old_time);
-
-// Thread operations
-
-void	terminate_threads(t_philo *philos, t_config *config);
-
-void	*monitor_routine(void *arg);
-
-void	*philo_routine(void *arg);
-
-// Safe bool operations
-
-bool	protected_bool_check(bool bool_value, pthread_mutex_t bool_mutex);
-
-void	protected_bool_update(bool *bool_to_update, bool updated_value,
-			pthread_mutex_t bool_mutex);
 
 // Clean
 
@@ -54,6 +43,6 @@ void clean_forks_array(t_fork *forks_array, unsigned int array_size);
 
 void clean_philos_array(t_philo *philos_array, unsigned int array_size);
 
-void clean_all(t_philo *philos, t_config * config);
+void clean_all(t_philo *philos, t_data * data);
 
 #endif
