@@ -72,7 +72,7 @@ static void	*initialize_forks_array(unsigned int nb_of_philosophers)
 	i = 0;
 	while (i < nb_of_philosophers)
 	{
-		if (pthread_mutex_init(&forks[i].fork_mutex, NULL) == 0)	// init mutexes + check for failure
+		if (pthread_mutex_init(&forks[i].fork_mutex, NULL) != 0)	// init mutexes + check for failure
 		{
 			printf("Error : mutex initialization failed for forks[%u].fork_mutex\n", i);
 			clean_forks_array(forks, i);
