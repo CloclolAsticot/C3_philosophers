@@ -57,6 +57,7 @@ static void	*initialize_user_input(char *user_input[], t_data *data)
 	return (data);
 }
 
+
 static void	*initialize_forks_array(unsigned int nb_of_philosophers)
 {
 	t_fork *forks;
@@ -71,7 +72,7 @@ static void	*initialize_forks_array(unsigned int nb_of_philosophers)
 	i = 0;
 	while (i < nb_of_philosophers)
 	{
-		if (pthread_mutex_init(&forks[i].fork_mutex, NULL) != 0)	// init mutexes + check for failure
+		if (pthread_mutex_init(&forks[i].fork_mutex, NULL) == 0)	// init mutexes + check for failure
 		{
 			printf("Error : mutex initialization failed for forks[%u].fork_mutex\n", i);
 			clean_forks_array(forks, i);
@@ -114,9 +115,9 @@ static void *initialize_util_mutexes(t_data *data)
  */
 void	*initialize_data(char *user_input[], t_data *data)
 {
-	if (initialize_user_input(user_input, data) == NULL) // init user input values
+	if (initialize_user_input(user_input, data) == NULL || data->nb_of_philosophers == 0) // init user input values
 	{
-		printf("Error : Wrong argument format\n");
+		printf("Error : Invalid argument (arguments must be unsigned integers - and nb_of_philosophers must be > 0)\n");
 		return (NULL);
 	}
 	data->forks = initialize_forks_array(data->nb_of_philosophers);

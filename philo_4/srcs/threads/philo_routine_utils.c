@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:19:13 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 17:42:33 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/07/26 17:45:22 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ bool grab_fork(t_fork *fork, t_data *data)
 			grab_succeeded = true;
 		}
 		pthread_mutex_unlock(&fork->fork_mutex);
-		usleep(50);
+		usleep(30);
 	}
     return (grab_succeeded);
 }
 
-bool	grab_both_forks(t_philo *philo, t_fork *left_fork,
-		t_fork *right_fork, t_data *data)
-{
-	if (philo->id % 2 == 0)
-    {
-        if (grab_fork(left_fork, data) == true && grab_fork(right_fork, data) == true)
-            return (true);
-    }
-	else if (philo->id % 2 != 0)
-    {
-        if (grab_fork(right_fork, data) == true && grab_fork(left_fork, data) == true)
-            return (true);
-    }
-    return (false);
-}
+// bool	grab_both_forks(t_philo *philo, t_fork *left_fork,
+// 		t_fork *right_fork, t_data *data)
+// {
+//     (void)philo;
+// 	// if (philo->id % 2 == 0)
+//     // {
+//         if (grab_fork(left_fork, data) == true && grab_fork(right_fork, data) == true)
+//             return (true);
+//     // }
+// 	// else if (philo->id % 2 != 0)
+//     // {
+//     //     if (grab_fork(right_fork, data) == true && grab_fork(left_fork, data) == true)
+//     //         return (true);
+//     // }
+//     return (false);
+// }
