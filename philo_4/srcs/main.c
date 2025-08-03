@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:19 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/26 18:04:00 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 15:51:49 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int ac, char *av[])
 	philos = initialize_philos(&data);
 	if (philos == NULL)
 		return (EXIT_FAILURE);
+	data.sim_start_time = get_current_time_ms();
 	if (create_philo_threads(philos, data.nb_of_philosophers, &data) == NULL)
 		return (EXIT_FAILURE);
 	if (create_monitor_thread(&monitor, philos, &data) == NULL)

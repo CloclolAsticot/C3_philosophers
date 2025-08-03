@@ -6,7 +6,7 @@ NAME = philo
 
 # Compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
 
 # Directories
 D_SRCS = srcs

@@ -126,7 +126,7 @@ void	*initialize_data(char *user_input[], t_data *data)
 	if (initialize_util_mutexes(data) == NULL) // init print_mutex and stop_sim_mutex
 		return (NULL);
 	data->stop_sim = false;            // init has_a_philo_died
-	data->sim_start_time = get_current_time_ms(); // init sim_start_time
+	// data->sim_start_time = get_current_time_ms(); // init sim_start_time
 	return (data);
 }
 
