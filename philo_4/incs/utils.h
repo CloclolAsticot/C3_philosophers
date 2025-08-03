@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:44:58 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 16:42:47 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 17:21:16 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 
 // Log display
 
-void print_log(long timestamp, long philo_id, char *msg, t_data *data);
+void print_log(long start_timestamp, long philo_id, char *msg, pthread_mutex_t *print_mutex);
 
-bool protected_print_log(long timestamp, long philo_id, char *msg, t_data *data);
+bool protected_print_log(long start_timestamp, long philo_id, char *msg, t_data *data);
 
 // Time operations
 

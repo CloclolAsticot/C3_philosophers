@@ -6,7 +6,7 @@ NAME = philo
 
 # Compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3
 
 # Directories
 D_SRCS = srcs
@@ -16,7 +16,7 @@ D_OBJS = objs
 # Source Files
 FILES 	= 	main.c \
 			structures_initialization/data_initialization.c \
-			structures_initialization/data_initialization_utils.c \
+			structures_initialization/user_input_initialization.c \
 			structures_initialization/philos_initialization.c \
 			threads/monitor_routine.c \
 			threads/philo_routine.c \

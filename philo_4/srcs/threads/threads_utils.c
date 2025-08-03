@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:59 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/03 15:53:13 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 19:09:27 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	terminate_philos_threads(t_philo *philos, unsigned int nb_of_threads,
 	}
 }
 
-void	terminate_all_threads(t_philo *philos, unsigned int nb_of_philo_threads, pthread_t *monitor,
-		t_data *data)
+void	terminate_all_threads(t_philo *philos, unsigned int nb_of_philo_threads,
+		pthread_t *monitor, t_data *data)
 {
 	unsigned int	i;
 
@@ -64,9 +64,7 @@ void	terminate_all_threads(t_philo *philos, unsigned int nb_of_philo_threads, pt
 static void	thread_creation_failure_cleanup(t_philo *philos,
 		unsigned int nb_of_philo_threads, t_data *data)
 {
-	pthread_mutex_lock(&data->stop_sim_mutex);
-	data->stop_sim = true;
-	pthread_mutex_unlock(&data->stop_sim_mutex);
+	protected_bool_update(&data->stop_sim, true, &data->stop_sim_mutex);
 	terminate_philos_threads(philos, nb_of_philo_threads, data);
 	clean_all(philos, data);
 }
@@ -80,6 +78,8 @@ void	*create_philo_threads(t_philo *philos, unsigned int nb_of_philos,
 	i = 0;
 	while (i < nb_of_philos)
 	{
+		if (philos[i].id == 0) // Check for null terminator
+			break ;
 		if (philos[i].id % 2 == 0)
 			thread_creation_return = pthread_create(&philos[i].thread_id, NULL,
 					&philo_routine_even, &philos[i]);
@@ -111,4 +111,12 @@ void	*create_monitor_thread(pthread_t *monitor, t_philo *philos,
 		return (NULL);
 	}
 	return (monitor);
+}
+
+void	protected_bool_update(bool *bool_to_update, bool updated_value,
+		pthread_mutex_t *bool_mutex)
+{
+	pthread_mutex_lock(bool_mutex);
+	*bool_to_update = updated_value;
+	pthread_mutex_unlock(bool_mutex);
 }

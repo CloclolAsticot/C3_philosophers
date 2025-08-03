@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:51:28 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 16:42:42 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 18:13:22 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ unsigned int	check_and_convert_user_input(char *str_to_convert);
 
 void	*initialize_data(char *user_input[], t_data *data);
 
-void	*initialize_philos(t_data *data);
+void			*initialize_philos(t_data *data);
 
 #endif

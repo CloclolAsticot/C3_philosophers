@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:37:33 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/24 16:45:05 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 19:15:52 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*initialize_philos(t_data *data)
 	t_philo *philos;
 	unsigned int	i;
 
-	philos = malloc(data->nb_of_philosophers * sizeof(t_philo));
+	philos = malloc((data->nb_of_philosophers + 1) * sizeof(t_philo));
 	if (philos == NULL)
 	{
 		printf("Error : malloc failed for philos[]\n");
@@ -80,6 +80,7 @@ void	*initialize_philos(t_data *data)
 		philos[i].data = data;
 		i++;
 	}
+	philos[i].id = 0;
 	return (philos);
 }
 

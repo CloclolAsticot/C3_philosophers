@@ -17,105 +17,201 @@
   "file": "srcs/main.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/structures_initialization.c",
+   "srcs/main.c",
    "-o",
-   "objs/structures_initialization.o"
+   "objs/main.o"
   ],
-  "file": "srcs/structures_initialization.c"
+  "file": "srcs/main.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/structures_initialization_utils.c",
+   "srcs/structures_initialization/data_initialization.c",
    "-o",
-   "objs/structures_initialization_utils.o"
+   "objs/structures_initialization/data_initialization.o"
   ],
-  "file": "srcs/structures_initialization_utils.c"
+  "file": "srcs/structures_initialization/data_initialization.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/time_operations.c",
+   "srcs/structures_initialization/data_initialization_utils.c",
    "-o",
-   "objs/time_operations.o"
+   "objs/structures_initialization/data_initialization_utils.o"
   ],
-  "file": "srcs/time_operations.c"
+  "file": "srcs/structures_initialization/data_initialization_utils.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/log_display.c",
+   "srcs/structures_initialization/philos_initialization.c",
    "-o",
-   "objs/log_display.o"
+   "objs/structures_initialization/philos_initialization.o"
   ],
-  "file": "srcs/log_display.c"
+  "file": "srcs/structures_initialization/philos_initialization.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/threads_handling.c",
+   "srcs/threads/monitor_routine.c",
    "-o",
-   "objs/threads_handling.o"
+   "objs/threads/monitor_routine.o"
   ],
-  "file": "srcs/threads_handling.c"
+  "file": "srcs/threads/monitor_routine.c"
  },
  {
-  "directory": "/home/csavreux/Documents/42_projects/github_folders/C3_philosophers/philo_4",
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
   "arguments": [
    "cc",
    "-Wall",
    "-Wextra",
    "-Werror",
    "-g3",
+   "-fsanitize=thread",
    "-I",
    "./incs",
    "-c",
-   "srcs/threads_handling_utils.c",
+   "srcs/threads/philo_routine.c",
    "-o",
-   "objs/threads_handling_utils.o"
+   "objs/threads/philo_routine.o"
   ],
-  "file": "srcs/threads_handling_utils.c"
+  "file": "srcs/threads/philo_routine.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-fsanitize=thread",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/threads/philo_routine_utils.c",
+   "-o",
+   "objs/threads/philo_routine_utils.o"
+  ],
+  "file": "srcs/threads/philo_routine_utils.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-fsanitize=thread",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/threads/threads_utils.c",
+   "-o",
+   "objs/threads/threads_utils.o"
+  ],
+  "file": "srcs/threads/threads_utils.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-fsanitize=thread",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/utils/clean.c",
+   "-o",
+   "objs/utils/clean.o"
+  ],
+  "file": "srcs/utils/clean.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-fsanitize=thread",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/utils/log_display.c",
+   "-o",
+   "objs/utils/log_display.o"
+  ],
+  "file": "srcs/utils/log_display.c"
+ },
+ {
+  "directory": "/home/csavreux/Documents/42_projects/github_folders/new_philo/philo_4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-g3",
+   "-fsanitize=thread",
+   "-I",
+   "./incs",
+   "-c",
+   "srcs/utils/time_operations.c",
+   "-o",
+   "objs/utils/time_operations.o"
+  ],
+  "file": "srcs/utils/time_operations.c"
  }
 ]
