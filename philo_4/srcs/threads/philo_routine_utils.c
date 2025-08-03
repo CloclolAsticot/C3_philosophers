@@ -6,59 +6,55 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:19:13 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/26 17:45:22 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 15:24:15 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "threads_handling.h"
+#include <bits/pthreadtypes.h>
 #include <pthread.h>
 #include <unistd.h>
 
-bool stop_sim_check(t_data *data)
+bool	stop_sim_check(bool *stop_sim, pthread_mutex_t *stop_sim_mutex)
 {
-    pthread_mutex_lock(&data->stop_sim_mutex);
-    if (data->stop_sim == true)
-    {
-        pthread_mutex_unlock(&data->stop_sim_mutex);
-        return (true);
-    }
-    pthread_mutex_unlock(&data->stop_sim_mutex);
-    return (false);
+	pthread_mutex_lock(stop_sim_mutex);
+	if (*stop_sim == true)
+	{
+		pthread_mutex_unlock(stop_sim_mutex);
+		return (true);
+	}
+	pthread_mutex_unlock(stop_sim_mutex);
+	return (false);
 }
 
-bool grab_fork(t_fork *fork, t_data *data)
+bool	grab_fork(bool *fork_status, pthread_mutex_t *fork_mutex,
+		bool *stop_sim, pthread_mutex_t *stop_sim_mutex)
 {
-    bool grab_succeeded;
+	bool	grab_succeeded;
 
-    grab_succeeded = false;
-    while (stop_sim_check(data) == false && grab_succeeded == false)
+	grab_succeeded = false;
+	while (stop_sim_check(stop_sim, stop_sim_mutex) == false
+		&& grab_succeeded == false)
 	{
-		pthread_mutex_lock(&fork->fork_mutex);
-		if (fork->fork_status == false)
+		pthread_mutex_lock(fork_mutex);
+		if (*fork_status == false)
 		{
-			fork->fork_status = true;
+			*fork_status = true;
 			grab_succeeded = true;
 		}
-		pthread_mutex_unlock(&fork->fork_mutex);
-		usleep(30);
+		pthread_mutex_unlock(fork_mutex);
+		if (grab_succeeded == false)
+			usleep(100);
 	}
-    return (grab_succeeded);
+	return (grab_succeeded);
 }
 
-// bool	grab_both_forks(t_philo *philo, t_fork *left_fork,
-// 		t_fork *right_fork, t_data *data)
-// {
-//     (void)philo;
-// 	// if (philo->id % 2 == 0)
-//     // {
-//         if (grab_fork(left_fork, data) == true && grab_fork(right_fork, data) == true)
-//             return (true);
-//     // }
-// 	// else if (philo->id % 2 != 0)
-//     // {
-//     //     if (grab_fork(right_fork, data) == true && grab_fork(left_fork, data) == true)
-//     //         return (true);
-//     // }
-//     return (false);
-// }
+bool	grab_both_forks(t_fork *left_fork, t_fork *right_fork,
+		t_data *data)
+{
+	if (grab_fork(&left_fork->fork_status, &left_fork->fork_mutex, &data->stop_sim, &data->stop_sim_mutex) == true)
+        if (grab_fork(&right_fork->fork_status, &right_fork->fork_mutex, &data->stop_sim, &data->stop_sim_mutex) == true)
+            return (true);
+	return (false);
+}
