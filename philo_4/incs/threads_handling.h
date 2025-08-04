@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:35:38 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/04 16:28:34 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 19:25:12 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,8 @@ void	put_forks_down(bool *left_fork_status, pthread_mutex_t *left_fork_mutex,
 void	*create_philo_threads(t_philo *philos, unsigned int nb_of_philos,
 			t_data *data);
 
-void	*create_monitor_thread(pthread_t *monitor, t_philo *philos,
-			t_data *data);
-
 // Threads Ending
 void	terminate_philo_threads(t_philo *philos, unsigned int nb_of_threads,
 			t_data *data);
-
-void	terminate_all_threads(t_philo *philos, unsigned int nb_of_philo_threads,
-			pthread_t *monitor, t_data *data);
 
 #endif

@@ -18,7 +18,6 @@ FILES 	= 	main.c \
 			structures_initialization/data_initialization.c \
 			structures_initialization/user_input_initialization.c \
 			structures_initialization/philos_initialization.c \
-			threads/monitor_routine.c \
 			threads/philo_routine.c \
 			threads/philo_routine_utils.c \
 			threads/threads_creation.c \

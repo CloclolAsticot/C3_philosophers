@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:59 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/04 16:32:18 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 19:28:47 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,4 @@ void	*create_philo_threads(t_philo *philos, unsigned int nb_of_philos,
 		i++;
 	}
 	return (philos);
-}
-
-/**
- * @brief Creates and starts a monitor thread for the philosopher simulation.
- * 
- * @param monitor Pointer to pthread_t where the created thread ID will be 
- * stored.
- * @param philos Pointer to the array of philosopher structures that will be
- *               passed to the monitor routine.
- * @param data Pointer to the main data structure.
- * 
- * @return Returns the monitor pthread_t pointer on success, NULL on failure
- */
-void	*create_monitor_thread(pthread_t *monitor, t_philo *philos,
-		t_data *data)
-{
-	if (pthread_create(monitor, NULL, &monitor_routine, philos) != 0)
-	{
-		thread_creation_failure_cleanup(philos, data->nb_of_philosophers, data);
-		protected_print_error(THREAD_CREATION_FAIL, &data->print_mutex);
-		return (NULL);
-	}
-	return (monitor);
 }

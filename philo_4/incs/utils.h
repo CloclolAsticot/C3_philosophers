@@ -6,7 +6,7 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:44:58 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/04 16:29:56 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 19:26:54 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@
 # define NO_ARG 4294967295
 
 // Input Error messages
-# define WRONG_ARG_NB "INPUT ERROR : Wrong number of arguments \
+# define WRONG_ARG_NB \
+	"INPUT ERROR : Wrong number of arguments \
 (must be 4 or 5)\n"
-# define ARG_NOT_UINT "INPUT ERROR : Wrong argument format \
+# define ARG_NOT_UINT \
+	"INPUT ERROR : Wrong argument format \
 (arguments must be numbers >= 0 and <= 4294967)\n"
 # define ZERO_PHILO "INPUT ERROR : number_of_philosophers must be > 0\n"
-# define ZERO_MEAL "INPUT ERROR : If entered - \
+# define ZERO_MEAL \
+	"INPUT ERROR : If entered - \
 number_of_times_each_philosopher_must_eat must be > 0\n"
 
 // Initialization Error messages
