@@ -1,35 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_initialization_utils.c                        :+:      :+:    :+:   */
+/*   user_input_initialization.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:57:44 by csavreux          #+#    #+#             */
-/*   Updated: 2025/07/26 18:27:31 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 16:30:34 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include <limits.h>
-#include <stdbool.h>
-#include <string.h>
-
-/**
- * @brief Calculates the length of a null-terminated string.
- *
- * @param str Pointer to the null-terminated string to measure.
- * @return size_t The length of the string (number of characters before '\0').
- */
-static size_t	ft_strlen(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
 
 /**
  * @brief Checks if a character is a digit (0-9).
@@ -50,7 +32,7 @@ static bool	ft_isdigit(int character)
  * @brief Checks if the given string represents a valid number.
  *
  * @param str The input string to be checked.
- * @return Returns 1 if the string is a valid number, 0 otherwise.
+ * @return Returns true if the string is a valid number, false otherwise.
  */
 static bool	is_number(char *str)
 {
@@ -69,35 +51,37 @@ static bool	is_number(char *str)
 
 /**
  * @brief Converts a string to an unsigned integer with overflow protection.
+ * Overflows if the given number > UINT_MAX / 1000 - specifity for the philos
+ * project.
  *
  * @param str Pointer to the null-terminated string to be converted.
  *
  * @return On success, returns the converted unsigned integer value.
- * @return On positive overflow or if the given number is < 0, returns -1.
+ * @return On positive overflow or if the given number is < 0, returns UINT_MAX.
  */
-static unsigned int	ft_atouint(const char *str)
+static unsigned int	ft_atouint_philo(const char *str)
 {
 	size_t	i;
 	long	nbr;
 
 	i = 0;
 	nbr = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)) // skips whitespaces
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] == '-' || str[i] == '+') // checks the sign
+	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			return (WRONG_FORMAT);
+			return (WRONG_FORMAT_NB);
 		i++;
 	}
-	while (ft_isdigit(str[i])) // converts the string
+	while (ft_isdigit(str[i]))
 	{
-		if (nbr > ((UINT_MAX / 1000 - (str[i] - '0')) / 10)) // unsigned int overflow
-			return (WRONG_FORMAT);
+		if (nbr > ((UINT_MAX / 1000 - (str[i] - '0')) / 10))
+			return (WRONG_FORMAT_NB);
 		nbr = nbr * 10 + str[i] - '0';
 		i++;
 	}
-	return (nbr); // returns the conversion result (with the right sign)
+	return (nbr);
 }
 
 /**
@@ -108,16 +92,12 @@ static unsigned int	ft_atouint(const char *str)
  * @return On success, returns the converted positive unsigned integer.
  * @return On failure, returns -1.
  */
-unsigned int check_and_convert_user_input(char *str_to_convert)
+unsigned int	check_and_convert_user_input(char *str_to_convert)
 {
 	long	nb;
 
 	if (is_number(str_to_convert) == false)
-		// checks if the input str is a number
-		return (WRONG_FORMAT);
-	nb = ft_atouint(str_to_convert); // converts the input str to an unsigned int
-	if (nb < 0)
-		// checks if there was an overflow (input str is longer than an unsigned int) or if the nb is negative
-		return (WRONG_FORMAT);
+		return (WRONG_FORMAT_NB);
+	nb = ft_atouint_philo(str_to_convert);
 	return (nb);
 }

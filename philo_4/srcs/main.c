@@ -6,18 +6,14 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:50:19 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/03 18:14:02 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 15:50:21 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures_initialization.h"
 #include "threads_handling.h"
 #include "utils.h"
-#include <bits/pthreadtypes.h>
-#include <pthread.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int	main(int ac, char *av[])
 {
@@ -25,19 +21,19 @@ int	main(int ac, char *av[])
 	t_philo		*philos;
 	pthread_t	monitor;
 
-	if (ac < 5 || ac > 6)	// check argument number
+	if (ac < 5 || ac > 6)
 	{
-		printf("Error : Wrong number of arguments\n");
+		print_error(WRONG_ARG_NB);
 		return (EXIT_FAILURE);
 	}
-	if (initialize_data(av, &data) == NULL)		// initialize global data
+	if (initialize_data(av, &data) == NULL)
 		return (EXIT_FAILURE);
-	philos = initialize_philos(&data);	// initialize philosophers array
+	philos = initialize_philos(&data);
 	if (philos == NULL)
 		return (EXIT_FAILURE);
-	if (create_philo_threads(philos, data.nb_of_philosophers, &data) == NULL)	//create the philo threads
+	if (create_philo_threads(philos, data.nb_of_philosophers, &data) == NULL)
 		return (EXIT_FAILURE);
-	if (create_monitor_thread(&monitor, philos, &data) == NULL)	//create monitor thread
+	if (create_monitor_thread(&monitor, philos, &data) == NULL)
 		return (EXIT_FAILURE);
 	terminate_all_threads(philos, data.nb_of_philosophers, &monitor, &data);
 	clean_all(philos, &data);

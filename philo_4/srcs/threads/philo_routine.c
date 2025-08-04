@@ -6,17 +6,24 @@
 /*   By: csavreux <csavreux@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:43:25 by csavreux          #+#    #+#             */
-/*   Updated: 2025/08/03 19:30:39 by csavreux         ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 16:32:02 by csavreux         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structures.h"
 #include "threads_handling.h"
 #include "utils.h"
-#include <pthread.h>
-#include <stdio.h>
 #include <unistd.h>
 
+/**
+ * @brief Simulates a philosopher thinking state.
+ * 
+ * @param sim_start_time The simulation start time used for calculating 
+ * elapsed time.
+ * @param philo_id The unique identifier of the philosopher.
+ * @param data Pointer to the shared data structure.
+ * 
+ * @return Returns the data pointer on success, NULL if the simulation stopped.
+ */
 static void	*think(long sim_start_time, unsigned int philo_id, t_data *data)
 {
 	if (protected_print_log(sim_start_time, philo_id, THINK_MSG, data) == false)
@@ -24,6 +31,17 @@ static void	*think(long sim_start_time, unsigned int philo_id, t_data *data)
 	return (data);
 }
 
+/**
+ * @brief Simulates a philosopher eating by acquiring forks and updating 
+ * meal status.
+ * 
+ * @param sim_start_time The simulation start time in milliseconds.
+ * @param philo Pointer to the philosopher structure.
+ * @param data Pointer to shared simulation data.
+ * 
+ * @return void* Returns pointer to the philosopher on success, NULL if 
+ * the simulation stopped.
+ */
 static void	*eat(long sim_start_time, t_philo *philo, t_data *data)
 {
 	if (grab_both_forks(philo->left_fork, philo->right_fork, philo,
@@ -42,14 +60,15 @@ static void	*eat(long sim_start_time, t_philo *philo, t_data *data)
 	return (philo);
 }
 
-static void	put_forks_down(bool *left_fork_status,
-		pthread_mutex_t *left_fork_mutex, bool *right_fork_status,
-		pthread_mutex_t *right_fork_mutex)
-{
-	protected_bool_update(left_fork_status, false, left_fork_mutex);
-	protected_bool_update(right_fork_status, false, right_fork_mutex);
-}
-
+/**
+ * @brief Simulates a philosopher sleeping for a specified duration.
+ * 
+ * @param philo Pointer to the philosopher structure.
+ * @param data Pointer to the shared data structure.
+ * 
+ * @return void* Returns the philosopher pointer on success, NULL if 
+ * the simulation has stopped.
+ */
 static void	*p_sleep(t_philo *philo, t_data *data)
 {
 	if (protected_print_log(data->sim_start_time, philo->id, SLEEP_MSG,
@@ -59,6 +78,13 @@ static void	*p_sleep(t_philo *philo, t_data *data)
 	return (philo);
 }
 
+/**
+ * @brief Philosopher routine for odd-numbered philosophers
+ * 
+ * @param arg Pointer to the philosopher structure (t_philo) cast as void*.
+ *
+ * @return void* Returns NULL when the routine terminates.
+ */
 void	*philo_routine_odd(void *arg)
 {
 	t_data	*data;
@@ -70,17 +96,13 @@ void	*philo_routine_odd(void *arg)
 	sim_start_time = data->sim_start_time;
 	while (1)
 	{
-		// THINK
 		if (think(sim_start_time, philo->id, data) == NULL)
 			return (NULL);
-		// EAT
 		if (eat(sim_start_time, philo, data) == NULL)
 			return (NULL);
-		// TAKE DOWN FORKS
 		put_forks_down(&philo->left_fork->fork_status,
 			&philo->left_fork->fork_mutex, &philo->right_fork->fork_status,
 			&philo->right_fork->fork_mutex);
-		// SLEEP
 		if (p_sleep(philo, data) == NULL)
 			return (NULL);
 	}
@@ -93,25 +115,17 @@ void	*philo_routine_even(void *arg)
 	t_philo	*philo;
 	long	sim_start_time;
 
-	// bool			*stop_sim;
-	// pthread_mutex_t	*stop_sim_mutex;
 	philo = (t_philo *)arg;
 	data = philo->data;
 	sim_start_time = data->sim_start_time;
-	// stop_sim = &data->stop_sim;
-	// stop_sim_mutex = &data->stop_sim_mutex;
 	while (1)
 	{
-		// SLEEP
 		if (p_sleep(philo, data) == NULL)
 			return (NULL);
-		// THINK
 		if (think(sim_start_time, philo->id, data) == NULL)
 			return (NULL);
-		// EAT
 		if (eat(sim_start_time, philo, data) == NULL)
 			return (NULL);
-		// TAKE DOWN FORKS
 		put_forks_down(&philo->left_fork->fork_status,
 			&philo->left_fork->fork_mutex, &philo->right_fork->fork_status,
 			&philo->right_fork->fork_mutex);

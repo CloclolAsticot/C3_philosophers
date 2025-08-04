@@ -21,9 +21,11 @@ FILES 	= 	main.c \
 			threads/monitor_routine.c \
 			threads/philo_routine.c \
 			threads/philo_routine_utils.c \
-			threads/threads_utils.c \
+			threads/threads_creation.c \
+			threads/threads_ending.c \
 			utils/clean.c \
 			utils/log_display.c \
+			utils/utils.c \
 			utils/time_operations.c 
 
 SRCS 	= 		$(addprefix $(D_SRCS)/, $(FILES))
